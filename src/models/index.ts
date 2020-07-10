@@ -1,3 +1,3 @@
-export * from "./Data";
+export * from "./AnyData";
 export * from "./User";
 export * from "./Token";

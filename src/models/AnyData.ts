@@ -1,4 +1,4 @@
-export class Data {
+export class AnyData {
     a: string;
     b: boolean;
 }
