@@ -1,4 +1,4 @@
-import { WSServer } from "@nexjs/wsserver";
+import { WSServer } from "./@nexjs/wsserver";
 import { Token, User } from "./models";
 
 //#region [ private ]

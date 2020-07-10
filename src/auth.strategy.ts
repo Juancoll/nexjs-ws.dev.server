@@ -1,5 +1,5 @@
-import { IAuthStrategy, ISocketClient, IAuthInfo } from "@nexjs/wsserver";
-import { User, Token } from "models";
+import { IAuthStrategy, ISocketClient, IAuthInfo } from "./@nexjs/wsserver";
+import { User, Token } from "./models";
 
 
 export class AuthStrategy implements IAuthStrategy<User, Token> {

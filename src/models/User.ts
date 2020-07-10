@@ -4,4 +4,3 @@ export class User {
     roles: string[];
 }
 
-export type Token = string;

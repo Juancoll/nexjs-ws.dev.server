@@ -1,28 +1,32 @@
+import * as path from 'path';
 import * as Express from 'express';
 import * as Http from 'http';
 import * as io from 'socket.io';
-import { WSServer, SocketIOServer } from '@nexjs/wsserver';
+import * as cors from 'cors';
+import { WSServer, SocketIOServer } from './@nexjs/wsserver';
 
-import { MyContract } from './my.contract';
-import { AuthStrategy } from './auth.strategy';
-import * as tools from 'tools'
-import { User, Token } from 'models';
+import { BaseContract } from './contracts/base.contract';
+import { CredentialContract } from './contracts/credential.contract';
+import { User, Token } from './models';
 
 
 const app = Express();
 const http = Http.createServer(app);
 const ioServer = io(http);
-const wss = new WSServer<User, Token>(new AuthStrategy());
+const wss = new WSServer<User, Token>();
 
-wss.register(new MyContract());
+app.use(cors({
+    origin: true,
+    optionsSuccessStatus: 200,
+    credentials: true,
+}))
+
+wss.register(new BaseContract());
+wss.register(new CredentialContract());
 wss.init(new SocketIOServer(ioServer));
-wss.auth.isLoginRequired = true;
-wss.auth.loginRequiredTimeout = 3000;
-tools.registerDebugEvent(wss);
-tools.registerAuthDebugEvents(wss);
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(path.resolve(__dirname + '/../public/index.html'));
 });
 
 ioServer.on('connection', (socket: io.Socket) => {
