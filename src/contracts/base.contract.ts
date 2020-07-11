@@ -14,23 +14,12 @@ export class BaseContract implements IName {
 
     @Rest()
     print() {
-        console.log("[MyContract] print()");
-    }
-
-    @Rest({
-        validation: async (instance, user, credentials) => {
-            console.log(`[MyContract] [validation] printWithCredentials: user`, user);
-            console.log(`[MyContract] [validation] printWithCredentials: credentials`, credentials);
-            return true;
-        }
-    })
-    printWithCredentials() {
-        console.log("[MyContract] printWithCredentials()");
+        console.log("[BaseContract] print()");
     }
 
     @Rest()
     delay(@Data() value: number) {
-        console.log(`[MyContract] delay(${value})`);
+        console.log(`[BaseContract] delay(${value})`);
         if (!value)
             value = 2000;
         return new Promise<number>((resolve, reject) => {
@@ -40,13 +29,8 @@ export class BaseContract implements IName {
 
     @Rest()
     notify() {
-        console.log("[MyContract] notify()");
+        console.log("[BaseContract] notify()");
         this.onUpdate.emit();
         this.onDataUpdate.emit({ a: "hello", b: true } as AnyData);
-    }
-
-    @Rest()
-    printSomethink() {
-        console.log("[MyContract] printSomethink()");
     }
 }

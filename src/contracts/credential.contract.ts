@@ -1,4 +1,4 @@
-import { IName, Rest, HubEvent, HubEventData, Hub, Data } from '../@nexjs/wsserver'
+import { IName, Rest, Hub, HubEventCredentialsData, HubEventCredentials } from '../@nexjs/wsserver'
 import { AnyData } from '../models'
 
 export class CredentialContract implements IName {
@@ -6,47 +6,44 @@ export class CredentialContract implements IName {
     // IName interface implementation
     public readonly name = 'credentialContract';
 
-    @Hub()
-    onUpdate = new HubEvent();
+    @Hub({
+        validation: async (instance, user, credential) => {
+            console.log(`[CredentialContract] [validation] onUpdate`, credential);
+            return true
+        },
+        selection: async (instance, user, userCredentials, serverCredentials) => {
+            console.log(`[CredentialContract] [validation] onUpdate`, userCredentials, serverCredentials);
+            return true
+        },
+    })
+    onUpdate = new HubEventCredentials<string>();
 
-    @Hub()
-    onDataUpdate = new HubEventData<AnyData>();
-
-    @Rest()
-    print() {
-        console.log("[MyContract] print()");
-    }
+    @Hub({
+        validation: async (instance, user, credential) => {
+            console.log(`[CredentialContract] [validation] onDataUpdate`, credential);
+            return true
+        },
+        selection: async (instance, user, userCredentials, serverCredentials) => {
+            console.log(`[CredentialContract] [validation] onDataUpdate`, userCredentials, serverCredentials);
+            return true
+        },
+    })
+    onDataUpdate = new HubEventCredentialsData<string, AnyData>();
 
     @Rest({
         validation: async (instance, user, credentials) => {
-            console.log(`[MyContract] [validation] printWithCredentials: user`, user);
-            console.log(`[MyContract] [validation] printWithCredentials: credentials`, credentials);
+            console.log(`[CredentialContract] [validation] print()`, credentials);
             return true;
-        }
+        },
     })
-    printWithCredentials() {
-        console.log("[MyContract] printWithCredentials()");
-    }
-
-    @Rest()
-    delay(@Data() value: number) {
-        console.log(`[MyContract] delay(${value})`);
-        if (!value)
-            value = 2000;
-        return new Promise<number>((resolve, reject) => {
-            setTimeout(() => resolve(value), value);
-        });
+    print() {
+        console.log("[CredentialContract] printWithCredentials()");
     }
 
     @Rest()
     notify() {
-        console.log("[MyContract] notify()");
-        this.onUpdate.emit();
-        this.onDataUpdate.emit({ a: "hello", b: true } as AnyData);
-    }
-
-    @Rest()
-    printSomethink() {
-        console.log("[MyContract] printSomethink()");
+        console.log("[CredentialContract] notify()");
+        this.onUpdate.emit("serverCredentials-001");
+        this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
     }
 }
