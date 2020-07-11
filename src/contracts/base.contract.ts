@@ -20,10 +20,11 @@ export class BaseContract implements IName {
     @Rest()
     delay(@Data() value: number) {
         console.log(`[BaseContract] delay(${value})`);
-        if (!value)
-            value = 2000;
         return new Promise<number>((resolve, reject) => {
-            setTimeout(() => resolve(value), value);
+            setTimeout(() => {
+                resolve(value);
+                console.log(`[BaseContract] delay(...) : send response`);
+            }, value);
         });
     }
 

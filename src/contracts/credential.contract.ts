@@ -12,7 +12,7 @@ export class CredentialContract implements IName {
             return true
         },
         selection: async (instance, user, userCredentials, serverCredentials) => {
-            console.log(`[CredentialContract] [validation] onUpdate`, userCredentials, serverCredentials);
+            console.log(`[CredentialContract] [selection] onUpdate`, userCredentials, serverCredentials);
             return true
         },
     })
@@ -24,7 +24,7 @@ export class CredentialContract implements IName {
             return true
         },
         selection: async (instance, user, userCredentials, serverCredentials) => {
-            console.log(`[CredentialContract] [validation] onDataUpdate`, userCredentials, serverCredentials);
+            console.log(`[CredentialContract] [selection] onDataUpdate`, userCredentials, serverCredentials);
             return true
         },
     })
@@ -37,13 +37,13 @@ export class CredentialContract implements IName {
         },
     })
     print() {
-        console.log("[CredentialContract] printWithCredentials()");
+        console.log("[CredentialContract] print()");
     }
 
     @Rest()
     notify() {
         console.log("[CredentialContract] notify()");
         this.onUpdate.emit("serverCredentials-001");
-        this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
+        // this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
     }
 }
