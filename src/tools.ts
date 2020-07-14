@@ -1,5 +1,7 @@
 import { WSServer } from "./@nexjs/wsserver";
 import { Token, User } from "./models";
+import * as JWT from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
 
 //#region [ private ]
 export const registerDebugEvent = (wss: WSServer<User, Token>) => {
