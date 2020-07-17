@@ -32,6 +32,8 @@ export class AuthStrategy implements IAuthStrategy<User, Token> {
 
     async register(client: ISocketClient, data: any): Promise<IAuthInfo<User, string>> {
 
+        console.log('[AuthStrategy] register');
+
         const email = data.email;
         const pass = data.password;
 
@@ -47,6 +49,9 @@ export class AuthStrategy implements IAuthStrategy<User, Token> {
         return this.add(client, user, token);
     }
     async login(client: ISocketClient, data: any): Promise<IAuthInfo<User, string>> {
+
+        console.log('[AuthStrategy] login');
+
         const email = data.email;
         const pass = data.password;
 
@@ -63,10 +68,14 @@ export class AuthStrategy implements IAuthStrategy<User, Token> {
         throw new Error("user not found.");
     }
     logout(client: ISocketClient): Promise<void> {
+
+        console.log('[AuthStrategy] logout');
         this.remove(client);
         return;
     }
-    authenticate(client: ISocketClient, data: any): Promise<User> {
+    async authenticate(client: ISocketClient, data: any): Promise<User> {
+
+        console.log('[AuthStrategy] authenticate');
         const token = data;
         const payload = jwt.verify<User>(token);
         if (!payload.email || !payload.roles) {

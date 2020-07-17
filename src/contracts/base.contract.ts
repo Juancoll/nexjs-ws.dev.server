@@ -6,6 +6,9 @@ export class BaseContract implements IName {
     // IName interface implementation
     public readonly name = 'baseContract';
 
+    constructor() {
+    }
+
     @Hub()
     onUpdate = new HubEvent();
 
