@@ -14,6 +14,7 @@ import *  as tools from './tools';
 
 
 const app = Express();
+app.use(Express.static(path.resolve(__dirname + '/../public')));
 const http = Http.createServer(app);
 const ioServer = io(http);
 
@@ -44,7 +45,7 @@ app.get('/', (req, res) => {
 ioServer.on('connection', (socket: io.Socket) => {
     console.log(`[socket.io] add    client: ${socket.id}`);
     socket.on('disconnect', () => {
-        console.log(`[socket.io] remove client: ${socket.id}` + socket.id);
+        console.log(`[socket.io] remove client: ${socket.id}`);
     });
 });
 
