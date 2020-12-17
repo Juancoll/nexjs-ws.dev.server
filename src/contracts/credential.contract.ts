@@ -1,40 +1,34 @@
-import { IName, Rest, Hub, HubEventCredentialsData, HubEventCredentials } from '../@nexjs/wsserver'
-import { AnyData } from '../models'
+import { Rest, Hub, HubEventSelectorData, HubEventSelector } from '../wslib'
+import { AnyData, User } from '../models'
 
-export class CredentialContract implements IName {
+export class CredentialContract {
+    public readonly service = 'credentialContract';
 
-    // IName interface implementation
-    public readonly name = 'credentialContract';
-
-    @Hub({
-        validation: async (instance, user, credential) => {
-            console.log(`[CredentialContract] [validation] onUpdate`, credential);
+    @Hub<CredentialContract, User, number, string>({
+        validate: async (instance, user, validation) => {
+            console.log(`[CredentialContract] [validation] onUpdate`, validation);
             return true
         },
-        selection: async (instance, user, userCredentials, serverCredentials) => {
-            console.log(`[CredentialContract] [selection] onUpdate`, userCredentials, serverCredentials);
+        select: async (instance, user, validation, selection) => {
+            console.log(`[CredentialContract] [selection] onUpdate`, validation, selection);
             return true
         },
     })
-    onUpdate = new HubEventCredentials<string>();
+    onUpdate = new HubEventSelector<number, string>();
 
-    @Hub({
-        validation: async (instance, user, credential) => {
+    @Hub<CredentialContract, User, number, string[]>({
+        validate: async (instance, user, credential) => {
             console.log(`[CredentialContract] [validation] onDataUpdate`, credential);
             return true
         },
-        selection: async (instance, user, userCredentials, serverCredentials) => {
+        select: async (instance, user, userCredentials, serverCredentials) => {
             console.log(`[CredentialContract] [selection] onDataUpdate`, userCredentials, serverCredentials);
             return true
         },
     })
-    onDataUpdate = new HubEventCredentialsData<string, AnyData>();
+    onDataUpdate = new HubEventSelectorData<number, string[], AnyData>();
 
-    @Rest({
-        validation: async (instance, user, credentials) => {
-            console.log(`[CredentialContract] [validation] print()`, credentials);
-            return true;
-        },
+    @Rest<CredentialContract, User>({
     })
     print() {
         console.log("[CredentialContract] print()");
@@ -44,6 +38,6 @@ export class CredentialContract implements IName {
     notify() {
         console.log("[CredentialContract] notify()");
         this.onUpdate.emit("serverCredentials-001");
-        // this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
+        this.onDataUpdate.emit(["serverCredentials-002"], { a: "hello", b: true } as AnyData);
     }
 }

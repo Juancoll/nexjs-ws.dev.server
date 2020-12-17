@@ -9,7 +9,7 @@ export class Db {
     create(email: string, encryptedPassword: string): User {
         const user = {
             email: email,
-            roles: [],
+            roles: ['user', 'admin'],
             password: encryptedPassword,
         } as User;
 

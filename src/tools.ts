@@ -1,15 +1,13 @@
-import { WSServer } from "./@nexjs/wsserver";
+import { WSServer } from "./wslib";
 import { Token, User } from "./models";
-import * as JWT from 'jsonwebtoken';
-import * as bcrypt from 'bcryptjs';
 
 //#region [ private ]
 export const registerDebugEvent = (wss: WSServer<User, Token>) => {
     //#region [ hub events]
     wss.hub.onRegister.sub(e => console.log(`[wss][hub] onRegister service: ${e.service}, event: ${e.event}, isAuth: ${e.options.isAuth}, roles: ${e.options.roles}`));
     wss.hub.onPublish.sub(e => console.log(`[wss][hub] onPublish  service: ${e.descriptor.service}, event: ${e.descriptor.event}, clients: ${e.clients.map(x => x.id).join(',')}`));
-    wss.hub.onSuscribed.sub(e => console.log(`[wss][hub]${e.error ? '[error]' : ''} onSuscribed service: ${e.service}, event: ${e.event}, client: ${e.client.id}`));
-    wss.hub.onUnsuscribed.sub(e => console.log(`[wss][hub]${e.error ? '[error]' : ''} onUnsuscribed service: ${e.service}, event: ${e.event}, client: ${e.client.id}`));
+    wss.hub.onSuscribed.sub(e => console.log(`[wss][hub]${e.error ? '[error]' : ''} onSuscribed service: ${e.service}, event: ${e.event}, client: ${e.client.id}${e.error ? `, ${JSON.stringify(e.error.message)}` : ''}`));
+    wss.hub.onUnsuscribed.sub(e => console.log(`[wss][hub]${e.error ? '[error]' : ''} onUnsuscribed service: ${e.service}, event: ${e.event}, client: ${e.client.id}${e.error ? `, ${JSON.stringify(e.error.message)}` : ''}`));
     //#endregion
 
     //#region  [ rest events ]

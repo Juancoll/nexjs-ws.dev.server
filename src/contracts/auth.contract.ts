@@ -1,34 +1,26 @@
-import { IName, Rest, Hub, HubEventCredentialsData, HubEventCredentials } from '../@nexjs/wsserver'
+import { Rest, Hub, HubEventSelectorData, HubEventSelector } from '../wslib'
 import { AnyData } from '../models'
 
-export class AuthContract implements IName {
+export class AuthContract {
+    public readonly service = 'authContract';
+    public readonly isAuth = true;
+    public readonly roles = ["admin"]
 
-    // IName interface implementation
-    public readonly name = 'authContract';
+    @Hub()
+    onUpdate = new HubEventSelector<number, string>();
 
-    @Hub({
-        isAuth: true
-    })
-    onUpdate = new HubEventCredentials<string>();
+    @Hub()
+    onDataUpdate = new HubEventSelectorData<number, string, AnyData>();
 
-    @Hub({
-        isAuth: true
-    })
-    onDataUpdate = new HubEventCredentialsData<string, AnyData>();
-
-    @Rest({
-        isAuth: true
-    })
+    @Rest()
     print() {
         console.log("[AuthContract] print()");
     }
 
-    @Rest({
-        isAuth: true
-    })
+    @Rest()
     notify() {
         console.log("[AuthContract] notify()");
         this.onUpdate.emit("serverCredentials-001");
-        // this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
+        this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
     }
 }

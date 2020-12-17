@@ -1,10 +1,8 @@
-import { IName, Rest, HubEvent, HubEventData, Hub, Data } from '../@nexjs/wsserver'
+import { Rest, HubEvent, HubEventData, Hub, Data } from '../wslib'
 import { AnyData } from '../models'
 
-export class BaseContract implements IName {
-
-    // IName interface implementation
-    public readonly name = 'baseContract';
+export class BaseContract {
+    public readonly service = 'baseContract';
 
     constructor() {
     }

@@ -3,7 +3,7 @@ import * as Express from 'express';
 import * as Http from 'http';
 import * as io from 'socket.io';
 import * as cors from 'cors';
-import { WSServer, SocketIOServer } from './@nexjs/wsserver';
+import { WSServer, SocketIOServer } from './wslib';
 
 import { BaseContract } from './contracts/base.contract';
 import { CredentialContract } from './contracts/credential.contract';

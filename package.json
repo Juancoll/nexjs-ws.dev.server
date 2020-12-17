@@ -9,6 +9,7 @@
   "author": "juan coll",
   "license": "ISC",
   "dependencies": {
+    "@nexjs/wsserver": "^1.6.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.7",
     "@types/jsonwebtoken": "^8.5.0",
