@@ -1,5 +1,5 @@
-import { Rest, Hub, HubEventSelectorData, HubEventSelector } from '../wslib'
-import { AnyData } from '../models'
+import { Rest, Hub, HubEvent, HubSelector, HubValidator, HubValidatorSelector, HubEventData, HubEventSelection, HubEventSelectionData, HubEventValidation, HubEventValidationData, HubEventValidationSelection, HubEventValidationSelectionData } from '../wslib'
+import { AnyData, User } from '../models'
 
 export class AuthContract {
     public readonly service = 'authContract';
@@ -7,10 +7,11 @@ export class AuthContract {
     public readonly roles = ["admin"]
 
     @Hub()
-    onUpdate = new HubEventSelector<number, string>();
+    onUpdate = new HubEvent();
 
     @Hub()
-    onDataUpdate = new HubEventSelectorData<number, string, AnyData>();
+    onDataUpdate = new HubEventData<AnyData>();
+
 
     @Rest()
     print() {
@@ -20,7 +21,7 @@ export class AuthContract {
     @Rest()
     notify() {
         console.log("[AuthContract] notify()");
-        this.onUpdate.emit("serverCredentials-001");
-        this.onDataUpdate.emit("serverCredentials-002", { a: "hello", b: true } as AnyData);
+        this.onUpdate.emit()
+        this.onDataUpdate.emit({ a: "hola", b: true })
     }
 }

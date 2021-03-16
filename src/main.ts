@@ -16,7 +16,9 @@ import *  as tools from './tools';
 const app = Express();
 app.use(Express.static(path.resolve(__dirname + '/../public')));
 const http = Http.createServer(app);
-const ioServer = io(http);
+const ioServer = io(http, {
+    path: "/"
+});
 
 app.use(cors({
     origin: true,

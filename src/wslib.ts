@@ -1,1 +1,1 @@
-export * from '@nexjs/wsserver'
+export * from './@nexjs/wsserver'
