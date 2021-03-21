@@ -311,7 +311,7 @@ export class HubServer<TUser, TToken> extends ModuleBase<TUser, TToken> {
 
     //#region [ validation ]
     isAuth(clientId: string, options: IDecoratorOptionsBase): WSErrorCode {
-        if (options.isAuth) {
+        if (options.isAuth && options.roles.length > 0) {
             if (!this.wss.auth.authInfos.exists(clientId)) { return WSErrorCode.ws_hub_auth_required; }
             if (options.roles) {
                 const user = this.wss.auth.authInfos.get(clientId).user as any;
