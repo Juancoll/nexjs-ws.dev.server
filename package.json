@@ -17,7 +17,7 @@
     "cors": "^2.8.5",
     "engine.io": "^5.0.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.0.0",
     "strongly-typed-events": "^1.6.13",
